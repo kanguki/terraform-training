@@ -15,19 +15,20 @@ resource "docker_image" "nodered" {
   name = "nodered/node-red:latest"
 }
 
-locals {
-  num = 2
+variable "num" {
+  type = number
+  default = 1
 }
 
 resource "random_string" "random" {
-    count = local.num
+    count = var.num
     length = 4
     special = false
     upper = false
 }
 
 resource "docker_container" "nodered" {
-    count = local.num
+    count = var.num
     name = join("-",["nodered", random_string.random[count.index].result])
     image = docker_image.nodered.image_id
     ports {
