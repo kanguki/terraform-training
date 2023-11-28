@@ -16,16 +16,17 @@ resource "docker_image" "nodered" {
 }
 
 resource "random_string" "random" {
+    count = 2
     length = 4
     special = false
     upper = false
 }
 
 resource "docker_container" "nodered" {
-    name = join("-",["nodered", random_string.random.result])
+    count = 2
+    name = join("-",["nodered", random_string.random[count.index].result])
     image = docker_image.nodered.image_id
     ports {
         internal = "1880"
-        external = "1880"
     }
 }
