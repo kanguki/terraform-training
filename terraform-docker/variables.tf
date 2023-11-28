@@ -1,0 +1,3 @@
+variable "num" {
+  type = number
+}

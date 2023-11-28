@@ -15,11 +15,6 @@ resource "docker_image" "nodered" {
   name = "nodered/node-red:latest"
 }
 
-variable "num" {
-  type = number
-  default = 1
-}
-
 resource "random_string" "random" {
     count = var.num
     length = 4
