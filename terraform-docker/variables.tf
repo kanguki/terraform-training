@@ -15,3 +15,11 @@ variable "container_prefix" {
     prod = "prod"
   }
 }
+
+variable "container_image" {
+  type = map(string)
+  default = {
+    dev = "nodered/node-red:latest"
+    prod = "nodered/node-red:latest-minimal"
+  }
+}

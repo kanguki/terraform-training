@@ -1,18 +1,6 @@
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "3.0.2"
-    }
-  }
-}
-
-provider "docker" {
-  host = "unix://${pathexpand("~/.colima/docker.sock")}"
-}
-
-resource "docker_image" "nodered" {
-  name = "nodered/node-red:latest"
+module "image" {
+  source = "./image"
+  image_name = var.container_image[terraform.workspace]
 }
 
 resource "random_string" "random" {
@@ -25,7 +13,7 @@ resource "random_string" "random" {
 resource "docker_container" "nodered" {
   count = var.num
   name  = join("-", [lookup(var.container_prefix, var.env), "nodered", random_string.random[count.index].result])
-  image = docker_image.nodered.image_id
+  image = module.image.image_id
   ports {
     internal = "1880"
   }
