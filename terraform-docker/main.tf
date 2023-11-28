@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "docker" {
-    host = "unix:///Users/monguyen/.colima/docker.sock"
+    host = "unix://${pathexpand("~/.colima/docker.sock")}"
 }
 
 resource "docker_image" "nodered" {
