@@ -15,16 +15,11 @@ resource "docker_image" "nodered" {
   name = "nodered/node-red:latest"
 }
 
-resource "docker_container" "alpine_test_import" {
-    name = "fixed_if_run_terraform_apply_afterwards"
-    image = "alpine:3"
+resource "docker_container" "nodered" {
+    name = "nodered_test"
+    image = docker_image.nodered.image_id
     ports {
-        internal = "8000"
-        external = "8000"
+        internal = "1880"
+        external = "1880"
     }
-    command = [
-        "tail",
-        "-f",
-        "/dev/null"
-    ]
 }
