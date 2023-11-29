@@ -6,7 +6,3 @@ terraform {
     }
   }
 }
-
-provider "docker" {
-  host = "unix://${pathexpand("~/.colima/docker.sock")}"
-}
