@@ -1,28 +1,45 @@
 locals {
-  services = {
-    nodered = {
+  services_by_env = {
+    dev = {
+      nodered = {
+        image_in         = "nodered/node-red:latest"
+        count_in         = 2
+        internal_data_in = "/data"
+      }
+      influxdb = {
+        image_in         = "quay.io/influxdb/influxdb:v2.0.2"
+        count_in         = 1
+        internal_data_in = "/var/lib/influxdb"
+      }
     }
-    influxdb = {
+    prod = {
+      nodered = {
+        image_in         = "nodered/node-red:latest-minimal"
+        count_in         = 2
+        internal_data_in = "/data"
+      }
+      influxdb = {
+        image_in         = "quay.io/influxdb/influxdb:v2.0.2"
+        count_in         = 1
+        internal_data_in = "/var/lib/influxdb"
+      }
     }
   }
+  env      = terraform.workspace
+  services = local.services_by_env[local.env]
 }
-resource "random_string" "random" {
-  for_each = local.services
-  length   = 4
-  special  = false
-  upper    = false
-}
-
 module "image" {
   source     = "./image"
   for_each   = local.services
-  image_name = var.container_image[terraform.workspace][each.key]
+  image_name = each.value.image_in
 }
 
 module "container" {
-  source   = "./container"
-  for_each = local.services
-  name_in  = join("-", [var.container_prefix[terraform.workspace], each.key, random_string.random[each.key].result])
-  image_in = module.image[each.key].image_id
+  source           = "./container"
+  for_each         = local.services
+  count_in         = each.value.count_in
+  name_in          = join("-", [local.env, each.key])
+  image_in         = module.image[each.key].image_id
+  internal_data_in = each.value.internal_data_in
 }
 
