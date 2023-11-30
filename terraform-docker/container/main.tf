@@ -5,7 +5,7 @@ resource "random_string" "random" {
   upper    = false
 }
 
-resource "docker_container" "nodered" {
+resource "docker_container" "container" {
   count = var.count_in
   name  = join("-", [var.name_in, random_string.random[count.index].result])
   image = var.image_in
@@ -14,11 +14,11 @@ resource "docker_container" "nodered" {
   }
   volumes {
     container_path = "/data"
-    volume_name = docker_volume.nodered_volume.name
+    volume_name = docker_volume.volume.name
   }
 }
 
-resource "docker_volume" "nodered_volume" {
+resource "docker_volume" "volume" {
   name = "${var.name_in}_volume"
   lifecycle {
     prevent_destroy = false
