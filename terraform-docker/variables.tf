@@ -1,7 +1,3 @@
-variable "num" {
-  type    = number
-  default = 1
-}
 
 variable "env" {
   type    = string
@@ -19,13 +15,13 @@ variable "container_prefix" {
 variable "container_image" {
   type = map(map(string))
   default = {
-    nodered = {
-      dev  = "nodered/node-red:latest"
-      prod = "nodered/node-red:latest-minimal"
+    dev = {
+      nodered  = "nodered/node-red:latest"
+      influxdb = "quay.io/influxdb/influxdb:v2.0.2"
     }
-    influxdb = {
-      dev  = "quay.io/influxdb/influxdb:v2.0.2"
-      prod = "quay.io/influxdb/influxdb:v2.0.2"
+    prod = {
+      nodered  = "nodered/node-red:latest-minimal"
+      influxdb = "quay.io/influxdb/influxdb:v2.0.2"
     }
   }
 }
