@@ -1,6 +1,3 @@
-# output "nodered_container_whole_names" {
-#   value = module.container[*].name_out
-# }
-# output "nodered_container_external_address" {
-#   value = module.container[*].address_out
-# }
+output "app_access" {
+  value = {for k, v in module.container: k => v.address_out}
+}

@@ -10,7 +10,7 @@ resource "docker_container" "container" {
   name  = join("-", [var.name_in, random_string.random[count.index].result])
   image = var.image_in
   ports {
-    internal = "1880"
+    internal = var.internal_port_in
   }
   volumes {
     container_path = "/data"

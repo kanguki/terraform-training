@@ -5,11 +5,13 @@ locals {
         image_in         = "nodered/node-red:latest"
         count_in         = 2
         internal_data_in = "/data"
+        internal_port_in = 1880
       }
       influxdb = {
         image_in         = "quay.io/influxdb/influxdb:v2.0.2"
         count_in         = 1
         internal_data_in = "/var/lib/influxdb"
+        internal_port_in = 8086
       }
     }
     prod = {
@@ -17,11 +19,13 @@ locals {
         image_in         = "nodered/node-red:latest-minimal"
         count_in         = 2
         internal_data_in = "/data"
+        internal_port_in = 1880
       }
       influxdb = {
         image_in         = "quay.io/influxdb/influxdb:v2.0.2"
         count_in         = 1
         internal_data_in = "/var/lib/influxdb"
+        internal_port_in = 8086
       }
     }
   }
@@ -41,5 +45,6 @@ module "container" {
   name_in          = join("-", [local.env, each.key])
   image_in         = module.image[each.key].image_id
   internal_data_in = each.value.internal_data_in
+  internal_port_in = each.value.internal_port_in
 }
 
