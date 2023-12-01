@@ -10,7 +10,7 @@ module "container" {
   count_in         = each.value.count_in
   name_in          = join("-", [local.env, each.key])
   image_in         = module.image[each.key].image_id
-  internal_data_in = each.value.internal_data_in
+  volumes_in       = each.value.volumes
   internal_port_in = each.value.internal_port_in
 }
 
