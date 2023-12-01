@@ -14,7 +14,7 @@ locals {
         internal_port_in = 8086
       }
       grafana = {
-        image_in = "grafana/grafana:latest"
+        image_in         = "grafana/grafana:latest"
         count_in         = 1
         internal_data_in = "/var/lib/grafana"
         internal_port_in = 3000
@@ -34,7 +34,7 @@ locals {
         internal_port_in = 8086
       }
       grafana = {
-        image_in = "grafana/grafana:latest"
+        image_in         = "grafana/grafana:latest"
         count_in         = 1
         internal_data_in = "/var/lib/grafana"
         internal_port_in = 3000

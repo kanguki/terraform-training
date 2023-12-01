@@ -1,8 +1,8 @@
 resource "random_string" "random" {
-  count = var.count_in
-  length   = 4
-  special  = false
-  upper    = false
+  count   = var.count_in
+  length  = 4
+  special = false
+  upper   = false
 }
 
 resource "docker_container" "container" {
@@ -14,7 +14,7 @@ resource "docker_container" "container" {
   }
   volumes {
     container_path = "/data"
-    volume_name = docker_volume.volume.name
+    volume_name    = docker_volume.volume.name
   }
 }
 
