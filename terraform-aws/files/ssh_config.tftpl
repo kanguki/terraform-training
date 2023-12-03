@@ -1,0 +1,13 @@
+Host bastion
+    HostName ${bastion}
+    IdentityFile ${private_key}
+    User ubuntu
+
+%{ for worker_id, worker_ip in workers ~}
+Host ${worker_id}
+    HostName ${worker_ip}
+    ProxyJump bastion
+    IdentityFile ${private_key}
+    User ubuntu
+    
+%{ endfor ~}
